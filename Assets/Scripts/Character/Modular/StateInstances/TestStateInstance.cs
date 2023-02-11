@@ -9,7 +9,7 @@ public class TestStateInstance : StateInstance
     CharacterInputType testInput;
     protected override void Enter()
     {
-        Debug.Log("Entering state " + gameObject);
+        //Debug.Log("Entering state " + gameObject);
     }
     protected override void Exit(CharacterInputType input)
     {
@@ -17,12 +17,12 @@ public class TestStateInstance : StateInstance
     }
     public override void ControlEnd()
     {
-        Debug.Log("Control End");
+        //Debug.Log("Control End");
     }
 
     public override void ControlStart()
     {
-        Debug.Log("Control Start");
+        //Debug.Log("Control Start");
     }
 
     public override void OnAttack(InputValue input)

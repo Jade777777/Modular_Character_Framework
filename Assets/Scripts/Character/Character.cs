@@ -8,13 +8,13 @@ public class Character : MonoBehaviour
 
 
     [SerializeField]
-    private CState defaultModule;//only active if all else is 0 
+    private CState defaultModule;//only active if all else is 0. 
 
 
 
-    //character modules/static info
+    //character modules. Data only changes from outside events such as aquiring a new item.
     [SerializeField]
-    private List<CState> characterStates;
+    private List<CState> characterStates; 
     [SerializeField]
     private List<CModel> characterModels;//this can be anything from the base model to glowing eyes. We first find the ModelType BaseModel with the highest priority and then layer accessories on top.
     [SerializeField]
@@ -28,7 +28,8 @@ public class Character : MonoBehaviour
     private CState currentModule; // we save the entire module instead of something like the index because the size of the list is highly dynamic.
     [SerializeField]
     private StateInstance currentStateInstance;
-    private TransitionData transitionData;//data stored between states(things like current health, speed, and whatnot)
+
+    public PersistantData persistantData;//data stored between states(things like current health, speed, and whatnot)
 
 
 
@@ -39,6 +40,7 @@ public class Character : MonoBehaviour
 
     private void Start()
     {
+
         Transition(defaultModule);//transition to the default module on game start
     }
 
@@ -70,9 +72,11 @@ public class Character : MonoBehaviour
 
     public void Transition(CState characterModule)//choose a new state, This module doesn't need to be housed within this class.
     {
+        
         if(characterModule == null)
         {
             characterModule = defaultModule;
+            Debug.LogWarning("NO VALID STATE, Transitioning to default module.");
         }
 
         OverrideControl(null);
@@ -80,16 +84,12 @@ public class Character : MonoBehaviour
         currentModule = characterModule;
 
         currentStateInstance = StateInstance.EnterNewStateInstance(characterModule.GetModuleState(), this);
-        Debug.Log("Transition to new state!");
+        Debug.Log("Transition to new state! " + currentModule + ", "+currentStateInstance);
     }
 
-    public void SetTransitionData(TransitionData transitionData)
+    public PersistantData GetTransitionData()
     {
-        this.transitionData = transitionData;
-    }
-    public TransitionData GetTransitionData()
-    {
-        return transitionData;
+        return persistantData;
     }
   
 }

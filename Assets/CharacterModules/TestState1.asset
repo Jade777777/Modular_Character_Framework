@@ -16,7 +16,8 @@ MonoBehaviour:
     type: 3}
   stateType: 02000000
   decisionData:
-  - validState: 01000000
+  - validState: 00000000
     validInput: 00000000
-    decisionAlgorithms: []
+    decisionAlgorithms:
+    - {fileID: 11400000, guid: 48648ad65fb1d244fadbf9b9067142cd, type: 2}
   priority: 100
