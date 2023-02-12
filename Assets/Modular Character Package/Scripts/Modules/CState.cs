@@ -25,7 +25,7 @@ public class CState : ScriptableObject
     {
         return stateType;
     }
-    private float GetDecisionValue(Character character, List<StateType> currentState, CharacterInputType currentInput)//Get how likeley this decision is to occur
+    private float GetDecisionValue(CharacterCore character, List<StateType> currentState, CharacterInputType currentInput)//Get how likeley this decision is to occur
     {
         float decisionValue = 0;
         foreach(DecisionData data in decisionData)
@@ -34,7 +34,7 @@ public class CState : ScriptableObject
         }
         return decisionValue;
     }
-    public static CState DecideNewState(List<CState> states, Character character, List<StateType> currentState, CharacterInputType currentInput)
+    public static CState DecideNewState(List<CState> states, CharacterCore character, List<StateType> currentState, CharacterInputType currentInput)
     {
         CState finalState = null;
         float finalValue = 0;
@@ -87,7 +87,7 @@ public  class DecisionData// decide if the state is available for transfer, and 
     private List<CharacterInputType> validInput;//if the input is valid, the transistion is possible
     [SerializeField]
     private List<BaseDecisionAlgorithm> decisionAlgorithms;//if the decision value is greater than 0 the transition is possible. All Decision values are multiplied together to gather the final value. The highest value is activated.
-    public float GetDecisionValue(Character character, List<StateType> currentStates, CharacterInputType currentInput)
+    public float GetDecisionValue(CharacterCore character, List<StateType> currentStates, CharacterInputType currentInput)
     {
         float decisionValue = 1;
 

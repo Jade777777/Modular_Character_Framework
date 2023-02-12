@@ -4,20 +4,21 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public abstract class StateInstance : MonoBehaviour, CharacterControlOverride
 {
-    private Character character;
-    
+    private CharacterCore character;
+
+
     #region Entry/Exit
-    public static StateInstance EnterNewStateInstance(GameObject statePrefab, Character character)//state instance factory
+    public static StateInstance EnterNewStateInstance(GameObject statePrefab, CharacterCore character)//state instance factory
     {
-        GameObject stateInstanceGO = Instantiate(statePrefab);
-        stateInstanceGO.transform.SetPositionAndRotation(character.GetTransitionData().position, character.GetTransitionData().rotation);
+        GameObject stateInstanceGO = Instantiate(statePrefab, character.transform.parent);
+        stateInstanceGO.transform.SetPositionAndRotation(character.GetPersistantData().position, character.GetPersistantData().rotation);
 
 
         StateInstance stateInstance = stateInstanceGO.GetComponent<StateInstance>();
         stateInstance.character = character;
 
 
-        character.OverrideControl(stateInstance);
+        character.GetCharacterInput().OverrideControl(stateInstance);
         
         
         stateInstance.Enter();
@@ -31,7 +32,7 @@ public abstract class StateInstance : MonoBehaviour, CharacterControlOverride
         character.persistantData.rotation = transform.rotation;
         Debug.Log("Exiting state!");
         Destroy(gameObject);//we can replace this with object pooling in the future if necessary     
-        character.Transition(input);
+        character.GetCharacterStateMachine().Transition(input);
     }
     #endregion
 

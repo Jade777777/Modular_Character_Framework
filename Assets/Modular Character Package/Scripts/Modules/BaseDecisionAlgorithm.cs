@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class BaseDecisionAlgorithm : ScriptableObject
 {
-    public abstract float CheckDecesion(Character character);
+    public abstract float CheckDecesion(CharacterCore character);
 }
