@@ -5,16 +5,25 @@ using UnityEngine;
 public class CharacterStateMachine
 {
     private CharacterCore character;
-    //character active info
-    [SerializeField]
+
+    private CState defaultModule;//only active if all else is 0. 
+
+    private List<CState> characterStates;
+
     private CState currentModule; // we save the entire module instead of something like the index because the size of the list is highly dynamic.
-    [SerializeField]
+
     private StateInstance currentStateInstance;
 
-    public CharacterStateMachine(CharacterCore character)
+    public PersistantData persistantData;//data stored between states(things like current health, speed, and whatnot)
+
+    public CharacterStateMachine(CharacterCore character, CState defaultModule, List<CState> characterStates)
     {
+        persistantData.position = character.transform.position;
+        persistantData.rotation = character.transform.rotation;
         this.character = character;
-        Transition(character.GetDefaultModule());//transition to the default module on game start
+        this.defaultModule = defaultModule;
+        this.characterStates = characterStates;
+        Transition(defaultModule);//transition to the default module on game start
     }
 
 
@@ -27,7 +36,7 @@ public class CharacterStateMachine
     public void Transition(CharacterInputType input)// Calculates the next apropriate state to transition to
     {
         //TODO: High Priority. Determine the next state to transition to through a Utility style aproach.
-        CState characterModule = CState.DecideNewState(character.GetCharacterStates(), character, currentModule.GetStateType(), input);
+        CState characterModule = CState.DecideNewState(characterStates, character, currentModule.GetStateType(), input);
 
         Transition(characterModule);
     }
@@ -37,7 +46,7 @@ public class CharacterStateMachine
 
         if (characterModule == null)
         {
-            characterModule = character.GetDefaultModule();
+            characterModule = defaultModule;
             Debug.LogWarning("NO VALID STATE, Transitioning to default module.");
         }
 
@@ -46,7 +55,7 @@ public class CharacterStateMachine
 
         currentModule = characterModule;
 
-        currentStateInstance = StateInstance.EnterNewStateInstance(characterModule.GetModuleState(), character);
+        currentStateInstance = StateInstance.EnterNewStateInstance(characterModule.GetModuleState(), character, persistantData);
         Debug.Log("Transition to new state! " + currentModule + ", " + currentStateInstance);
     }
 

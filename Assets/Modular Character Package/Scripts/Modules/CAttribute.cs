@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class CAtribute
+public class CAttribute
 {
     [SerializeField]
     private float value;

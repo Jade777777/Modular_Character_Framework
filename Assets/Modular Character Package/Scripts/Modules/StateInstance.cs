@@ -6,12 +6,10 @@ public abstract class StateInstance : MonoBehaviour, CharacterControlOverride
 {
     private CharacterCore character;
 
-
     #region Entry/Exit
-    public static StateInstance EnterNewStateInstance(GameObject statePrefab, CharacterCore character)//state instance factory
+    public static StateInstance EnterNewStateInstance(GameObject statePrefab, CharacterCore character,PersistantData persistantData)//state instance factory
     {
-        GameObject stateInstanceGO = Instantiate(statePrefab, character.transform.parent);
-        stateInstanceGO.transform.SetPositionAndRotation(character.GetPersistantData().position, character.GetPersistantData().rotation);
+        GameObject stateInstanceGO = Instantiate(statePrefab, persistantData.position, persistantData.rotation, character.transform.parent);
 
 
         StateInstance stateInstance = stateInstanceGO.GetComponent<StateInstance>();
@@ -28,8 +26,8 @@ public abstract class StateInstance : MonoBehaviour, CharacterControlOverride
     protected abstract void Enter();
     protected virtual void Exit(CharacterInputType input)// This is the only way the state can be exited.
     {
-        character.persistantData.position = transform.position;
-        character.persistantData.rotation = transform.rotation;
+        character.stateMachine.persistantData.position = transform.position;
+        character.stateMachine.persistantData.rotation = transform.rotation;
         Debug.Log("Exiting state!");
         Destroy(gameObject);//we can replace this with object pooling in the future if necessary     
         character.GetCharacterStateMachine().Transition(input);

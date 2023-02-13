@@ -2,55 +2,54 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(CharacterInput))]
 public class CharacterCore : MonoBehaviour
 {
     [SerializeField]
     private CharacterInput characterInput;
 
-
+    //Passed from the editor to the core systems in the Awake function
     [SerializeField]
     private CState defaultModule;//only active if all else is 0. 
 
 
-    //character modules. Data only changes from outside events such as aquiring a new item.
-    [SerializeField]
-    private List<CState> characterStates; 
-    [SerializeField]
-    private List<CModel> characterModels;//this can be anything from the base model to glowing eyes. We first find the ModelType BaseModel with the highest priority and then layer accessories on top.
-    [SerializeField]
-    private List<CAtribute> characterAtributes;
 
+    [SerializeField]
+    private List<CState> states;//characters are at there core a combination of states. Grounded, underwater, jumping.
+    [SerializeField]
+    private List<CModel> models;//this can be anything from the base model to glowing eyes. We first find the ModelType BaseModel with the highest priority and then layer accessories on top.
+    [SerializeField]
+    private List<CAttribute> attributes;
+    [SerializeField]
+    private List<CModifier> modifiers;
 
-    private CharacterStateMachine characterStateMachine; 
+    public CharacterStateMachine stateMachine { get; private set; }
+    public CharacterModelGenerator modelGenerator { get; private set; }
+    public CharacterAttributeHandler attributeHandler { get; private set; }
+    public CharacterModifierHandler modifierHandler { get; private set; }
+
     
-    public PersistantData persistantData;//data stored between states(things like current health, speed, and whatnot)
+    
 
 
 
     private void Awake()
     {
-        characterStateMachine = new CharacterStateMachine(this);
+        characterInput = GetComponent<CharacterInput>();
+        stateMachine = new CharacterStateMachine(this, defaultModule, states);
+        modelGenerator = new CharacterModelGenerator(models);
+        attributeHandler = new CharacterAttributeHandler(attributes);
     }
 
-    public PersistantData GetPersistantData()
-    {
-        return persistantData;
-    }
-    public List<CState> GetCharacterStates()
-    {
-        return characterStates;
-    }
-    public CState GetDefaultModule()
-    {
-        return defaultModule;
-    }
+
+
     public CharacterInput GetCharacterInput()
     {
         return characterInput;
     }
     public CharacterStateMachine GetCharacterStateMachine()
     {
-        return characterStateMachine;
+        return stateMachine;
     }
 
 
