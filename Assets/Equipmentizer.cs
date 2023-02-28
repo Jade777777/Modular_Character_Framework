@@ -13,6 +13,10 @@ public class Equipmentizer : MonoBehaviour
         AttachSkinnedMeshRenderer(skinnedMeshRenderer,targetRootBone, targetSMRContainer);
     }
 
+    private void Update()
+    {
+        Debug.Log(skinnedMeshRenderer.isVisible);
+    }
     private void AttachSkinnedMeshRenderer(SkinnedMeshRenderer smr, Transform targetRootBone, Transform targetSMRContainer)
     {
         smr.transform.SetParent(targetSMRContainer);
@@ -35,7 +39,7 @@ public class Equipmentizer : MonoBehaviour
 
         smr.bones = newBones;
         smr.rootBone = targetRootBone;
-        smr.ResetBounds();
+        
     }
 
 
