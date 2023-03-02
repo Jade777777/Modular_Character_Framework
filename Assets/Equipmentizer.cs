@@ -3,21 +3,24 @@ using UnityEngine;
 
 public class Equipmentizer : MonoBehaviour
 {
-    public SkinnedMeshRenderer skinnedMeshRenderer;
-
     public Transform targetRootBone;
     public Transform targetSMRContainer;
 
     void Start()
     {
-        AttachSkinnedMeshRenderer(skinnedMeshRenderer,targetRootBone, targetSMRContainer);
+        ReattachAllMeshRenderers(gameObject, targetRootBone, targetSMRContainer);
     }
 
-    private void Update()
+    private void ReattachAllMeshRenderers(GameObject model, Transform targetRootBone, Transform targetSMRContainer)
     {
-        Debug.Log(skinnedMeshRenderer.isVisible);
+        SkinnedMeshRenderer[] meshes = model.GetComponentsInChildren<SkinnedMeshRenderer>();
+        foreach (SkinnedMeshRenderer mesh in meshes)
+        {
+            ReattachSkinnedMeshRenderer(mesh, targetRootBone, targetSMRContainer);
+        }
     }
-    private void AttachSkinnedMeshRenderer(SkinnedMeshRenderer smr, Transform targetRootBone, Transform targetSMRContainer)
+
+    private void ReattachSkinnedMeshRenderer(SkinnedMeshRenderer smr, Transform targetRootBone, Transform targetSMRContainer)
     {
         smr.transform.SetParent(targetSMRContainer);
         smr.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
@@ -25,26 +28,27 @@ public class Equipmentizer : MonoBehaviour
 
         Transform[] newBones = new Transform[smr.bones.Length];
 
-        Dictionary<string, Transform> boneMap = GetAllSkinnedMeshRenderers(targetSMRContainer);
+        Dictionary<string, Transform> boneMap = GetAllBonesFromSMR(targetSMRContainer);
 
         for (int i = 0; i < smr.bones.Length; ++i)
         {
-            GameObject bone = smr.bones[i].gameObject;
-            if (!boneMap.TryGetValue(bone.name, out newBones[i]))
+            string bone = smr.bones[i].name;
+            if (!boneMap.TryGetValue(bone, out newBones[i]))
             {
-                Debug.Log("Unable to map bone \"" + bone.name + "\" to target skeleton.");
+                Debug.Log("Unable to map bone \"" + bone+ "\" to target skeleton.");
             }
         }
 
 
         smr.bones = newBones;
+
         smr.rootBone = targetRootBone;
         
     }
 
 
 
-    Dictionary<string, Transform> GetAllSkinnedMeshRenderers(Transform targetSMRContainer)
+    Dictionary<string, Transform> GetAllBonesFromSMR(Transform targetSMRContainer)
     {
         SkinnedMeshRenderer[] renderers = targetSMRContainer.GetComponentsInChildren<SkinnedMeshRenderer>();
         Dictionary<string, Transform> boneMap = new Dictionary<string, Transform>();
@@ -53,7 +57,7 @@ public class Equipmentizer : MonoBehaviour
         {
             foreach (Transform bone in smr.bones)
             {
-                if (!boneMap.ContainsKey(bone.gameObject.name)) boneMap[bone.gameObject.name] = bone;
+                if (!boneMap.ContainsKey(bone.name)) boneMap[bone.name] = bone;
             }
 
         }

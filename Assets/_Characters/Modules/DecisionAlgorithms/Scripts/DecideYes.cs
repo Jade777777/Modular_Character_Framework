@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-[CreateAssetMenu(fileName = "decideYes", menuName = "DecisionAlgorithm/DecideYes", order = 1)]
-public class DecideYes : BaseDecisionAlgorithm
+namespace ModularCharacter
 {
-    public override float CheckDecesion(CharacterCore character)
+    [CreateAssetMenu(fileName = "decideYes", menuName = "DecisionAlgorithm/DecideYes", order = 1)]
+    public class DecideYes : BaseDecisionAlgorithm
     {
-        return 1;
-    }
+        public override float CheckDecesion(CharacterCore character)
+        {
+            return 1;
+        }
 
+    }
 }
