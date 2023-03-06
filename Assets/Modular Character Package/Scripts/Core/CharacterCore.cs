@@ -7,10 +7,11 @@ using UnityEngine;
 namespace ModularCharacter
 {
     [RequireComponent(typeof(CharacterInput))]
+ 
     public class CharacterCore : MonoBehaviour
     {
-        [SerializeField]
-        private CharacterInput characterInput;
+
+
 
         //Passed from the editor to the core systems in the Awake function
         [SerializeField]
@@ -29,15 +30,13 @@ namespace ModularCharacter
         [SerializeField]
         private List<CharacterEventHandler.EventMods> eventModifiers;
 
+
+        public CharacterInput characterInput{ get; private set; }
         public CharacterStateMachine stateMachine { get; private set; }
         public CharacterModelGenerator modelGenerator { get; private set; }
         public CharacterAttributeHandler attributeHandler { get; private set; }
         public CharacterModifierHandler modifierHandler { get; private set; }
-
         public CharacterEventHandler eventHandler { get; private set; }
-
-
-
 
         private void Awake()
         {
@@ -45,7 +44,9 @@ namespace ModularCharacter
             stateMachine = new CharacterStateMachine(this, defaultModule, states);
             modelGenerator = new CharacterModelGenerator(models);
             attributeHandler = new CharacterAttributeHandler(attributes);
+            modifierHandler = new CharacterModifierHandler(modifiers);
             eventHandler = new CharacterEventHandler(this, eventModifiers);
+
         }
 
 
@@ -60,17 +61,6 @@ namespace ModularCharacter
             return stateMachine;
         }
 
-
-
-
-
-
-        public GameObject GenerateModel()
-        {
-            //TODO: Low Priority. Write code to generate a model for this character. Combine all of the character models  based off of priority as long as they don't overlap. 
-            //This should be moved to a new class.
-            return null;
-        }
 
     }
 

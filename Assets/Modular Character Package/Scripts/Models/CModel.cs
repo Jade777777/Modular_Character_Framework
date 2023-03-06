@@ -16,6 +16,19 @@ namespace ModularCharacter
         [SerializeField]
         private int priority;
 
+        public GameObject GetModel()
+        {
+            return model;
+        }
+        public ModelType GetModelType()
+        {
+            return type;
+        }
+        public int GetPriority() 
+        {
+            return priority; 
+        }
+
         public static List<GameObject> GetModels(List<CModel> cModels)
         {
             List<GameObject> list = new List<GameObject>();

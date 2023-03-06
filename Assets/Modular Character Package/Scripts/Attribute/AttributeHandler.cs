@@ -4,6 +4,7 @@ public class CharacterAttributeHandler
 {
 
     private List<CAttribute> attributes;
+    private Dictionary<StatType,CAttribute> sortedAttributes;
 
     public CharacterAttributeHandler(List<CAttribute> attributes)
     {

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1457627195717348338}
   - component: {fileID: 7939089867483821106}
   - component: {fileID: 8703158144225315730}
+  - component: {fileID: 1505817434}
   m_Layer: 0
   m_Name: CharacterPersistent
   m_TagString: Untagged
@@ -46,12 +47,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0ce2aef12876b842beb0855e1da979f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterInput: {fileID: 7939089867483821106}
   defaultModule: {fileID: 11400000, guid: 715b94e308acdee4db31b83a62f20c7e, type: 2}
-  states: []
-  models: []
+  states:
+  - {fileID: 11400000, guid: 715b94e308acdee4db31b83a62f20c7e, type: 2}
+  - {fileID: 11400000, guid: d8db78869a6ea90428647169a5392361, type: 2}
+  - {fileID: 11400000, guid: 7fade415c915b9e4e8479f970f5a8e76, type: 2}
+  models:
+  - {fileID: 11400000, guid: e8037a359feab5b43b8abd98db6b8f0f, type: 2}
+  - {fileID: 11400000, guid: afafd4f93b1b4274c998a77b5f9b2a65, type: 2}
+  - {fileID: 11400000, guid: 9cdbb5d61d61dbe4494fe17ec52798a9, type: 2}
   attributes: []
   modifiers: []
+  eventModifiers: []
 --- !u!114 &7939089867483821106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,6 +102,18 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &1505817434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1457627195717348337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b20461c5f842a4498f72ea6df7e6de6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1457627196236669591
 GameObject:
   m_ObjectHideFlags: 0

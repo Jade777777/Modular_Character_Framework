@@ -32,7 +32,7 @@ namespace ModularCharacter
         protected abstract void Enter();
         protected virtual void Start()
         {
-            character.modelGenerator.GetCharacterModel(targetRootBone, targetSMRContainer);
+            character.modelGenerator.AttatchCharacterModel(targetRootBone, targetSMRContainer);
         }
         protected virtual void Exit(CharacterInputType input)// This is the only way the state can be exited.
         {
